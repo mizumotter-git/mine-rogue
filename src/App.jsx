@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import GameBoard from './components/GameBoard';
 import HUD from './components/HUD';
+import InstructionsModal from './components/InstructionsModal';
 import { useGameState } from './hooks/useGameState';
 
 function App() {
+  const [showInstructions, setShowInstructions] = useState(false);
+
   const {
     board,
     rowCounts,
@@ -23,7 +26,16 @@ function App() {
     <div className="app-container">
       <h1>Logic Dungeon</h1>
 
-      <HUD depth={depth} minesLeft={minesLeft} message={message} />
+      <HUD
+        depth={depth}
+        minesLeft={minesLeft}
+        message={message}
+        onShowInstructions={() => setShowInstructions(true)}
+      />
+
+      {showInstructions && (
+        <InstructionsModal onClose={() => setShowInstructions(false)} />
+      )}
 
       <div className="game-area">
         <GameBoard
